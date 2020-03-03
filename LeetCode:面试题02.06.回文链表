@@ -1,0 +1,52 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        ListNode head2 = head;
+        int len = size(head) / 2;
+        // 判断链表的长度是偶数还是奇数
+        boolean tag = len % 2 == 0 ? true : false;
+        for (int i = 0; i < len; i++) {
+            if (i == len - 1) {
+                // 将一半的链表进行分割
+                if (tag) {
+                    ListNode nextNode = head2.next;
+                    head2.next = null;
+                    head2 = nextNode;
+                    break;
+                }
+            }
+            head2 = head2.next;
+        }
+        // newHead 进行反转后一半的链表
+        ListNode newHead = null;
+        while (head2 != null) {
+            ListNode Next = head2.next;
+            head2.next = newHead;
+            newHead = head2;
+            head2 = Next;
+        }
+        // 进行前半部分的链表和后半部分的链表进行比较
+        for (int j = 0; j < len; j++) {
+            if (head.val != newHead.val) {
+                return false;
+            }
+            head = head.next;
+            newHead = newHead.next;
+        }
+        return true;
+    }
+    public int size(ListNode head) {
+        int size = 0;
+        for (ListNode cur = head; cur != null; cur = cur.next) {
+            size++;
+        }
+        return size;
+    }
+}
